@@ -1,0 +1,15 @@
+Field Name,Description,End-of-year value provided by,Conversion to area
+GridID,LAVegMod Grid Cell ID,-,-
+pct_water,Portion of LAVegMod grid cell that is water,ICM-Morph,area = value*grid_cell_area
+pct_flotant,Portion of LAVegMod grid cell that is flotant marsh,Initial LULC + ICM-LAVegMod DeadFlotant File,area = value*grid_cell_area
+pct_land_veg,Portion of LAVegMod grid cell that is vegetated land,ICM-Morph updates the veg-bare ratio ICM-LAVegMod output bareground based on inundation and new land algorithms),area = value*grid_cell_area
+pct_land_bare,"Portion of LAVegMod grid cell that is non-vegetated, but available for vegetation",ICM-Morph updates the veg-bare ratio ICM-LAVegMod output bareground based on inundation and new land algorithms),area = value*grid_cell_area
+pct_land_upland_dry,"Portion of LAVegMod grid cell that is upland/developed (e.g., NotMod) and is too high and dry for wetland vegetation",Initial LULC + ICM-Morph inundation curve,area = value*grid_cell_area
+pct_land_upland_wet,"Portion of LAVegMod grid cell that is upland/developed (e.g., NotMod) but is low and wet enough for possible wetland vegetation",Initial LULC + ICM-Morph inundation curve,area = value*grid_cell_area
+pct_vglnd_BLHF,percentage of vegetated land that is covered by bottomland hardwoods forest species,ICM-LAVegMod,area = value*pct_land_veg_*grid_cell_area
+pct_vglnd_SWF,percentage of vegetated land that is covered by swamp forest species,ICM-LAVegMod,area = value*pct_land_veg_*grid_cell_area
+pct_vglnd_FM,percentage of vegetated land that is covered by fresh emergent marsh species,ICM-LAVegMod,area = value*pct_land_veg_*grid_cell_area
+pct_vglnd_IM,percentage of vegetated land that is covered by a bottomland hardwoods forest species,ICM-LAVegMod,area = value*pct_land_veg_*grid_cell_area
+pct_vglnd_BM,percentage of vegetated land that is covered by a bottomland hardwoods forest species,ICM-LAVegMod,area = value*pct_land_veg_*grid_cell_area
+pct_vglnd_SM,percentage of vegetated land that is covered by a bottomland hardwoods forest species,ICM-LAVegMod,area = value*pct_land_veg_*grid_cell_area
+FIBS_score,weighted FIBS score calculated from species mixture in grid cell,ICM-LAVegMod,-

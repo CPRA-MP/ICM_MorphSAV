@@ -1,0 +1,89 @@
+2019, start_year -  first year of model run
+1, elapsed_year -  elapsed year of model run
+30, dem_res -  XY resolution of DEM (meters)
+-9999, dem_NoDataVal -  value representing nodata in input rasters and XYZ files
+171284090, ndem -  number of DEM pixels - will be an array dimension for all DEM-level data
+2904131, ndem_bi -  number of pixels in interpolated ICM-BI-DEM XYZ that overlap primary DEM
+1778, ncomp -  number of ICM-Hydro compartments - will be an array dimension for all compartment-level data
+173898, ngrid -  number of ICM-LAVegMod grid cells - will be an array dimension for all gridd-level data
+33, neco -  number of ecoregions
+5, nlt -  number of landtype classifications
+0.10, ht_above_mwl_est -  elevation (meters) relative to annual mean water level at which point vegetation can establish
+2.57, ptile_Z -  Z-value for quantile definining inundation curve
+0.0058, B0 -  beta-0 coefficient from quantile regression on CRMS annual inundation-salinity data (see App. A of MP2023 Wetland Vegetation Model Improvement report)
+-0.00207, B1 -  beta-1 coefficient from quantile regression on CRMS annual inundation-salinity data (see App. A of MP2023 Wetland Vegetation Model Improvement report)
+0.0809, B2 -  beta-2 coefficient from quantile regression on CRMS annual inundation-salinity data (see App. A of MP2023 Wetland Vegetation Model Improvement report)
+0.0892, B3 -  beta-3 coefficient from quantile regression on CRMS annual inundation-salinity data (see App. A of MP2023 Wetland Vegetation Model Improvement report)
+-0.19, B4 -  beta-4 coefficient from quantile regression on CRMS annual inundation-salinity data (see App. A of MP2023 Wetland Vegetation Model Improvement report)
+0.835, ow_bd -  bulk density of water bottoms (g/cm3)
+0.076, om_k1  -  organic matter self-packing density (g/cm3) from CRMS soil data (see 2023 Wetlands Model Improvement report)
+2.106, mn_k2 -  mineral soil self-packing density (g/cm3) from CRMS soil data (see 2023 Wetlands Model Improvement report)
+0.0, FIBS_intvals(1)  -  FFIBS score that will serve as lower end for Fresh forested
+0.15, FIBS_intvals(2)  -  FFIBS score that will serve as lower end for Fresh marsh
+1.5, FIBS_intvals(3)  -  FFIBS score that will serve as lower end for Intermediate marsh
+5, FIBS_intvals(4)  -  FFIBS score that will serve as lower end for Brackish marsh
+18, FIBS_intvals(5)  -  FFIBS score that will serve as lower end for Saline marsh
+24, FIBS_intvals(6)  -  FFIBS score that will serve as upper end for Saline marsh
+10, min_accretion_limit_cm -  upper limit to allowable mineral accretion on the marsh surface during any given year [cm]
+50, ow_accretion_limit_cm -  upper limit to allowable accretion on the water bottom during any given year [cm]
+-50, ow_erosion_limit_cm -  upper limit to allowable erosion of the water bottom during any given year [cm]
+0.05, bg_lowerZ_m -  height that bareground is lowered [m]
+0.25, me_lowerDepth_m -  depth to which eroded marsh edge is lowered to [m]
+1.0, flt_lowerDepth_m -  depth to which dead floating marsh is lowered to [m]
+-0.762, mc_depth_threshold - water depth threshold (meters) defining deep water area to be excluded from marsh creation projects footprint
+1.1211425, spsal_params[1] - SAV parameter - spring salinity parameter 1
+-0.7870841, spsal_params[2] - SAV parameter - spring salinity parameter 2
+1.5059876, spsal_params[3] - SAV parameter - spring salinity parameter 3
+3.4309696, sptss_params_params[1] - SAV parameter - spring TSS parameter 1
+-0.8343315, sptss_params_params_params[2] - SAV parameter - TSS salinity parameter 2
+0.9781167, sptss_params[3] - SAV parameter - spring TSS parameter 3
+5.934377, dfl_params[1] - SAV parameter - distance from land parameter 1
+-1.957326, dfl_params[2] - SAV parameter - distance from land parameter 2
+1.258214, dfl_params[3] - SAV parameter - distance from land parameter 3
+0,binary_in - read input raster datas from binary files (1) or from ASCI XYZ files (0)
+1,binary_out - write raster datas to binary format only (1) or to ASCI XYZ files (0)
+'geomorph/input/MP2023_S00_G500_C000_U00_V00_SLA_I_00_00_W_dem30.xyz', dem_file -  file name with relative path to DEM XYZ file
+'geomorph/input/MP2023_S00_G500_C000_U00_V00_SLA_I_00_00_W_lndtyp30.xyz', lwf_file -  file name with relative path to land/water file that is same resolution and structure as DEM XYZ
+'geomorph/input/MP2023_S00_G500_C000_U00_V00_SLA_I_00_00_W_meer30.xyz', meer_file -  file name with relative path to marsh edge erosion rate file that is same resolution and structure as DEM XYZ
+'geomorph/input/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_polder30.xyz', pldr_file -  file name with relative path to polder file that is same resolution and structure as DEM XYZ
+'geomorph/input/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_comp30.xyz', comp_file -  file name with relative path to ICM-Hydro compartment map file that is same resolution and structure as DEM XYZ
+'geomorph/input/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_grid30.xyz', grid_file -  file name with relative path to ICM-LAVegMod grid map file that is same resolution and structure as DEM XYZ
+'geomorph/input/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_dpsub.xyz', dsub_file -  file name with relative path to deep subsidence rate map file that is same resolution and structure as DEM XYZ (mm/yr; positive value
+'geomorph/input/ecoregion_shallow_subsidence_mm.csv', ssub_file -  file name with relative path to shallow subsidence table with statistics by ecoregion (mm/yr; positive values are for downward VLM)
+ 1,ssub_col - column of shallow subsidence rates to use for current scenario (1=25th percentile; 2=50th percentile; 3=75th percentile)
+ 'geomorph/input/compartment_active_delta.csv', act_del_file -  file name with relative path to lookup table that identifies whether an ICM-Hydro compartment is assigned as an active delta site
+'geomorph/input/ecoregion_organic_matter_accum.csv', eco_omar_file -  file name with relative path to lookup table of organic accumulation rates by marsh type/ecoregion
+'geomorph/input/compartment_ecoregion.csv', comp_eco_file -  file name with relative path to lookup table that assigns an ecoregion to each ICM-Hydro compartment
+'geomorph/input/ecoregion_sav_priors.csv', sav_priors_file - file name with relative path to CSV containing parameters defining the periors (per basin) for the SAV statistical model
+''hydro/TempFiles/compartment_out_2019.csv', hydro_comp_out_file -  file name with relative path to compartment_out.csv file saved by ICM-Hydro
+'hydro/TempFiles/compartment_out_2018.csv', prv_hydro_comp_out_file -  file name with relative path to compartment_out.csv file saved by ICM-Hydro for previous year
+'veg/MP2023_S06_G501_C000_U00_V00_SLA_O_01_01_V_vegty.asc+', veg_out_file -  file name with relative path to *vegty.asc+ file saved by ICM-LAVegMod
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_mean_stage_2019.csv', monthly_mean_stage_file -  file name with relative path to compartment summary file with monthly mean water levels
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_max_stage_2019.csv', monthly_max_stage_file -  file name with relative path to compartment summary file with monthly maximum water levels
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_sed_dep_wat_2019.csv', monthly_ow_sed_dep_file -  file name with relative path to compartment summary file with monthly sediment deposition in open water
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_sed_dep_interior_2019.csv', monthly_mi_sed_dep_file -  file name with relative path to compartment summary file with monthly sediment deposition on interior marsh
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_sed_dep_edge_2019.csv', monthly_me_sed_dep_file -  file name with relative path to compartment summary file with monthly sediment deposition on marsh edge
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_mean_salinity_2019.csv', monthly_mean_sal_file -  file name with relative path to compartment summary file with monthly mean salinity values
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/hydro/TempFiles/compartment_monthly_mean_tss_2019.csv', monthly_mean_tss_file -  file name with relative path to compartment summary file with monthly mean suspended sediment concentrations
+'/ocean/projects/bcs200002p/ewhite12/MP2023/ICM/S06/G501/bidem/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_dem30_bi.xyz', bi_dem_xyz_file -  file name with relative path to XYZ DEM file for ICM-BI-DEM model domain - XY resolution must be snapped to XY resolution of main DEM
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_edge30.xyz', edge_eoy_xyz_file -  file name with relative path to XYZ raster output file for edge pixels
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_dem30.xyz', dem_eoy_xyz_file -  file name with relative path to XYZ raster output file for topobathy DEM
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_dz30.xyz', dz_eoy_xyz_file -  file name with relative path to XYZ raster output file for elevation change raster
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_lndtyp30.xyz', lndtyp_eoy_xyz_file -  file name with relative path to XYZ raster output file for land type
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_lndchg30.xyz', lndchng_eoy_xyz_file -  file name with relative path to XYZ raster output file for land change flag
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_salav30.xyz', lndchng_eoy_xyz_file -  file name with relative path to XYZ raster output file for average salinity
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_salmx30.xyz', lndchng_eoy_xyz_file -  file name with relative path to XYZ raster output file for maximum salinity
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_inun30.xyz', lndchng_eoy_xyz_file -  file name with relative path to XYZ raster output file for inundation depth
+'geomorph/output/grid_summary_eoy_2019.csv', grid_summary_eoy_file -  file name with relative path to summary grid file for end-of-year landscape
+'hydro/TempFiles/grid_data_500m_2019.csv', grid_data_file -  file name with relative path to summary grid data file used internally by ICM
+'hsi/GadwallDepths_cm_2019.csv', grid_depth_file_Gdw -  file name with relative path to Gadwall depth grid data file used internally by ICM and HSI
+'hsi/GWTealDepths_cm_2019.csv', grid_depth_file_GwT -  file name with relative path to Greenwing Teal depth grid data file used internally by ICM and HSI
+'hsi/MotDuckDepths_cm_2019.csv', grid_depth_file_MtD -  file name with relative path to Mottled Duck depth grid data file used internally by ICM and HSI
+'hsi/MP2023_S06_G501_C000_U00_V00_SLA_N_01_01_W_pedge.csv', grid_pct_edge_file -  file name with relative path to percent edge grid data file used internally by ICM and HSI
+'geomorph/output/MP2023_S06_G501_C000_U00_V00_SLA_O_01_01_W_SAV.csv', grid_sav_file -  file name with relative path to csv output file for SAV presence
+'hydro/TempFiles/compelevs_end_2019.csv', comp_elev_file -  file name with relative path to elevation summary compartment file used internally by ICM
+'hydro/TempFiles/PctWater_2019.csv', comp_wat_file -  file name with relative path to percent water summary compartment file used internally by ICM
+'hydro/TempFiles/PctUpland_2019.csv', comp_upl_file -  file name with relative path to percent upland summary compartment file used internally by ICM
+2941, nqaqc - number of QAQC points for reporting - as listed in qaqc_site_list_file
+'geomorph/output_qaqc/qaqc_site_list.csv', qaqc_site_list_file - file name with relative path to percent upland summary compartment file used internally by ICM
+ MP2023_S06_G501_C000_U00_V00_SLA_O_01_52, file naming convention prefix
