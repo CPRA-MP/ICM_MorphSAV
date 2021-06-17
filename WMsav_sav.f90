@@ -86,48 +86,51 @@ subroutine sav
         c = grid_comp(ig)
         if (c > 0) then
             en = comp_eco(c)
-            dfl = grid_dtl(ig)
-            ffibs = grid_FIBS_score(ig)
-            if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
-                prob = 0.0
-                pres = 0
-            else if (dfl <= 0) then         ! grid cell is 100% land/marsh so SAV cannot occur
-                prob = 0.0
-                pres = 0
-            else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
-
-                spsal = ( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
-                sptss = ( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
-            
-                ! spring salinity SAV probability 
-                ans1_sal_part = 1/(spsal_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(spsal)-(spsal_params(1)+spsal_params(2)))/spsal_params(3))**2)
-                ans0_sal_part = 1/(spsal_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(spsal)-(spsal_params(1)))/spsal_params(3))**2)
-                
-                ! distance from land SAV probability
-                ans1_dfl_part = 1/(dfl_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(dfl)-(dfl_params(1)+dfl_params(2)))/dfl_params(3))**2)
-                ans0_dfl_part = 1/(dfl_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(dfl)-(dfl_params(1)))/dfl_params(3))**2)
-                
-                ! spring TSS SAV probability
-                ans1_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)+sptss_params(2)))/sptss_params(3))**2)
-                ans0_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)))/sptss_params(3))**2)
-                
-                ! calculate prior probability from location/veg type
-                prior=1/(1+EXP(-(prior_int(en)+prior_slope(en)*ffibs)))
-                
-                ! combine info from predictors
-                ans1 = ans1_sal_part*ans1_dfl_part*ans1_tss_part
-                ans0 = ans0_sal_part*ans0_dfl_part*ans0_tss_part
-                
-                prob = prior*ans1/(prior*ans1+(1-prior)*ans0)
-                
-                ! convert probability of SAV to presence/absence
-                if ( LOG(prior*ans1) > LOG(1-prior)*ans0 ) then
-                    pres = 1
-                else
+            if (en > 0) then
+                dfl = grid_dtl(ig)
+                ffibs = grid_FIBS_score(ig)
+                if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
+                    prob = 0.0
                     pres = 0
+                else if (dfl <= 0) then         ! grid cell is 100% land/marsh so SAV cannot occur
+                    prob = 0.0
+                    pres = 0
+                else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
+    
+                    spsal = ( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
+                    sptss = ( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
+                
+                    ! spring salinity SAV probability 
+                    ans1_sal_part = 1/(spsal_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(spsal)-(spsal_params(1)+spsal_params(2)))/spsal_params(3))**2)
+                    ans0_sal_part = 1/(spsal_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(spsal)-(spsal_params(1)))/spsal_params(3))**2)
+                    
+                    ! distance from land SAV probability
+                    ans1_dfl_part = 1/(dfl_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(dfl)-(dfl_params(1)+dfl_params(2)))/dfl_params(3))**2)
+                    ans0_dfl_part = 1/(dfl_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(dfl)-(dfl_params(1)))/dfl_params(3))**2)
+                    
+                    ! spring TSS SAV probability
+                    ans1_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)+sptss_params(2)))/sptss_params(3))**2)
+                    ans0_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)))/sptss_params(3))**2)
+                    
+                    ! calculate prior probability from location/veg type
+                    prior=1/(1+EXP(-(prior_int(en)+prior_slope(en)*ffibs)))
+                    
+                    ! combine info from predictors
+                    ans1 = ans1_sal_part*ans1_dfl_part*ans1_tss_part
+                    ans0 = ans0_sal_part*ans0_dfl_part*ans0_tss_part
+                    
+                    prob = prior*ans1/(prior*ans1+(1-prior)*ans0)
+                    
+                    ! convert probability of SAV to presence/absence
+                    if ( LOG(prior*ans1) > LOG(1-prior)*ans0 ) then
+                        pres = 1
+                    else
+                        pres = 0
+                    end if
                 end if
-            end if
-            
+            else
+                prob = -9999.0
+                pres = -9999            
         else
             prob = -9999.0
             pres = -9999
