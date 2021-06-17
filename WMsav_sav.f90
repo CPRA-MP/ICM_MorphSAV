@@ -130,7 +130,8 @@ subroutine sav
                 end if
             else
                 prob = -9999.0
-                pres = -9999            
+                pres = -9999
+            end if
         else
             prob = -9999.0
             pres = -9999
