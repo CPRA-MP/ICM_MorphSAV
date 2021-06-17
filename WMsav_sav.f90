@@ -61,7 +61,7 @@ subroutine sav
     write(000,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
-    write(8888,'(A)') 'gridID,SAV_presence,SAV_prob,mean_spring_sal_ppt,mean_spring_tss_mgL,distance_to_land_m,FFIBS'
+    write(8888,'(A)') 'gridID,SAV_presence,SAV_prob,mean_spring_sal_ppt,mean_spring_tss_mgL,distance_to_land_m,FFIBS,ans1,ans0,prior'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell
     do i=1,ndem
@@ -92,9 +92,15 @@ subroutine sav
                 if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
                     prob = 0.0
                     pres = 0
+                    ans1 = 0.0
+                    ans0 = 0.0
+                    prior = 0.0
                 else if (dfl <= 0) then         ! grid cell is 100% land/marsh so SAV cannot occur
                     prob = 0.0
                     pres = 0
+                    ans1 = 0.0
+                    ans0 = 0.0
+                    prior = 0.0
                 else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
     
                     spsal = ( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
@@ -138,7 +144,7 @@ subroutine sav
         end if
 
 
-        write(8888,9999) ig,pres,prob,spsal,sptss,dfl,ffibs
+        write(8888,9999) ig,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior
     
     end do
     
