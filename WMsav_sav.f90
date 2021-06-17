@@ -64,8 +64,12 @@ subroutine sav
     write(8888,'(A)') 'gridID,SAV_presence,SAV_prob,mean_spring_sal_ppt,mean_spring_tss_mgL,distance_to_land_m,FFIBS'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell
+    write(*,*) 'ndem=',ndem
+    pause
     do i=1,ndem
+        write(*,*) 'i=',i
         g = dem_grid(i)
+        write(*,*) 'g=',g
         if ( dem_dtl(i) < grid_dtl(g) ) then
             grid_dtl(g) = dem_dtl(i)
         end if
