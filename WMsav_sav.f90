@@ -65,7 +65,7 @@ subroutine sav
     write(*,*)spsal_params(1),spsal_params(2),spsal_params(3)
     
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
-    write(8888,'(A)') 'gridID,SAV_presence,SAV_prob,mean_spring_sal_ppt,mean_spring_tss_mgL,distance_to_land_m,FFIBS,ans1,ans0,prior'
+    write(8888,'(A)') 'gridID,comp,er_n,SAV_presence,SAV_prob,mean_spring_sal_ppt,mean_spring_tss_mgL,distance_to_land_m,FFIBS,ans1,ans0,prior,prior_int,prior_slp,'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell
     do i=1,ndem
@@ -161,7 +161,7 @@ subroutine sav
     
     close(8888)
     
-9999 format( 3(I0,','), F0.4, 6(',',F0.4) )
+9999 format( 5(I0,','), F0.4, 8(',',F0.4) )
      
     return
 end
