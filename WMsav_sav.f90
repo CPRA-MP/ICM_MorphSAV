@@ -66,7 +66,7 @@ subroutine sav
     write(*,*)spsal_params(1),spsal_params(2),spsal_params(3)
     
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
-    write(8888,'(A)') 'GridID,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
+    write(8888,'(A)') 'GridID,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell
     do i=1,ndem
@@ -164,8 +164,8 @@ subroutine sav
             end if
         end if
 
-        write(8888,9998) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
-!        write(8888,9999) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,c,en,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
+!        write(8888,9998) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
+        write(8888,9999) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,c,en,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
     
     end do
     
