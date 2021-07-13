@@ -124,7 +124,7 @@ subroutine sav
                     ! calculate prior probability from location/veg type
                     pri = prior_int(en)
                     prs = prior_slope(en)
-                    prior=1/(1+EXP(-(prior_int(en)+prior_slope(en)*ffibs)))
+                    prior = 1/(1+EXP(-(prior_int(en)+prior_slope(en)*ffibs)))
                     
                     ! combine info from predictors
                     ans1 = ans1_sal_part*ans1_dfl_part*ans1_tss_part
@@ -142,10 +142,16 @@ subroutine sav
             else
                 prob = -9999.0
                 pres = -9999
+                pri = -9999
+                prs = -9999
+                prior = -9999
             end if
         else
             prob = -9999.0
             pres = -9999
+            pri = -9999
+            prs = -9999
+            prior = -9999
         end if
 
 
