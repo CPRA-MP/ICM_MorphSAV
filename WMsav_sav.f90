@@ -66,7 +66,7 @@ subroutine sav
     write(*,*)spsal_params(1),spsal_params(2),spsal_params(3)
     
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
-    write(8888,'(A)') 'GridID,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
+    write(8888,'(A)') 'GridID,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell
     do i=1,ndem
@@ -125,8 +125,8 @@ subroutine sav
                         ans0 = 0.0
                         prior = 0.0
                     else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
-                        spsal = 5.0!( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
-                        sptss = 50.0!( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
+                        spsal = ( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
+                        sptss = ( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
                     
                         ! spring salinity SAV probability 
                         ans1_sal_part = 1/(spsal_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(spsal)-(spsal_params(1)+spsal_params(2)))/spsal_params(3))**2)
