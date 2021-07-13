@@ -88,22 +88,23 @@ subroutine sav
             en = comp_eco(c)
             if (en > 0) then
                 dfl = grid_dtl(ig)
-                write(*,*) ig,dfl
                 ffibs = grid_FIBS_score(ig)
                 if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
+                    write(*,*) ig,dfl,'here'
                     prob = 0.0
                     pres = 0
                     ans1 = 0.0
                     ans0 = 0.0
                     prior = 0.0
                 else if (dfl <= 0) then         ! grid cell is 100% land/marsh so SAV cannot occur
+                    write(*,*) ig,dfl,'there'
                     prob = 0.0
                     pres = 0
                     ans1 = 0.0
                     ans0 = 0.0
                     prior = 0.0
                 else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
-    
+                    write(*,*) ig,dfl,'everywhere'
                     spsal = 5.0!( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
                     sptss = 50.0!( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
                 
