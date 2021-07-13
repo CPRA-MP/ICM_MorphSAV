@@ -86,7 +86,6 @@ subroutine sav
         c = grid_comp(ig)
         if (c > 0) then
             en = comp_eco(c)
-            write(*,*) ig,c,en
             if (en > 0) then
                 dfl = grid_dtl(ig)
                 ffibs = grid_FIBS_score(ig)
@@ -104,8 +103,8 @@ subroutine sav
                     prior = 0.0
                 else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
     
-                    spsal = ( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
-                    sptss = ( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
+                    spsal = 5.0!( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
+                    sptss = 50.0!( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
                 
                     ! spring salinity SAV probability 
                     ans1_sal_part = 1/(spsal_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(spsal)-(spsal_params(1)+spsal_params(2)))/spsal_params(3))**2)
