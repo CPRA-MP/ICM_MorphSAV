@@ -88,6 +88,7 @@ subroutine sav
             en = comp_eco(c)
             if (en > 0) then
                 dfl = grid_dtl(ig)
+                write(*,*) ig,dfl
                 ffibs = grid_FIBS_score(ig)
                 if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
                     prob = 0.0
