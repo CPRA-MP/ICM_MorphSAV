@@ -50,7 +50,7 @@ subroutine sav
     real(sp) :: ans0_dfl_part                                           ! distance-to-land predictor for probability grid cell <WILL NOT> have SAV present
     real(sp) :: ans1                                                    ! combined predictor for probability grid cell <WILL> have SAV present
     real(sp) :: ans0                                                    ! combined predictor for probability grid cell <WILL> have SAV present
-    real(sp) :: prior                                                   ! prior probability for SAV based on location and marsh vegetation of nearest land
+    real(sp) :: prior,pri,prs                                           ! prior probability for SAV based on location and marsh vegetation of nearest land
     real(sp) :: prob                                                    ! probability of SAV in grid cell
     real(sp),dimension(:),allocatable :: grid_dtl                       ! local array to store minimum distance to land for each LAVegMod grid cell
 
@@ -122,6 +122,8 @@ subroutine sav
                     ans0_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)))/sptss_params(3))**2)
 
                     ! calculate prior probability from location/veg type
+                    pri = prior_int(en)
+                    prs = prior_slope(en)
                     prior=1/(1+EXP(-(prior_int(en)+prior_slope(en)*ffibs)))
                     
                     ! combine info from predictors
@@ -147,7 +149,7 @@ subroutine sav
         end if
 
 
-        write(8888,9999) ig,c,en,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior_int(en),prior_slope(en),prior
+        write(8888,9999) ig,c,en,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior,pri,prs
     
     end do
     
