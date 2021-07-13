@@ -60,6 +60,10 @@ subroutine sav
     write(  *,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     write(000,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     
+    write(*,*)sptss_params(1),sptss_params(3),sptss_params(3)
+    write(*,*)dfl_params(1),dfl_params(2),dfl_params(3)
+    write(*,*)spsal_params(1),spsal_params(2),spsal_params(3)
+    
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
     write(8888,'(A)') 'gridID,SAV_presence,SAV_prob,mean_spring_sal_ppt,mean_spring_tss_mgL,distance_to_land_m,FFIBS,ans1,ans0,prior'
     
@@ -90,21 +94,18 @@ subroutine sav
                 dfl = grid_dtl(ig)
                 ffibs = grid_FIBS_score(ig)
                 if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
-                    write(*,*) ig,dfl,'here'
                     prob = 0.0
                     pres = 0
                     ans1 = 0.0
                     ans0 = 0.0
                     prior = 0.0
                 else if (dfl <= 0) then         ! grid cell is 100% land/marsh so SAV cannot occur
-                    write(*,*) ig,dfl,'there'
                     prob = 0.0
                     pres = 0
                     ans1 = 0.0
                     ans0 = 0.0
                     prior = 0.0
                 else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
-                    write(*,*) ig,dfl,'everywhere'
                     spsal = 5.0!( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0
                     sptss = 50.0!( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0
                 
@@ -119,7 +120,7 @@ subroutine sav
                     ! spring TSS SAV probability
                     ans1_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)+sptss_params(2)))/sptss_params(3))**2)
                     ans0_tss_part = 1/(sptss_params(3)*SQRT(2.0*pi))*EXP(-0.5*((LOG(sptss)-(sptss_params(1)))/sptss_params(3))**2)
-                    
+
                     ! calculate prior probability from location/veg type
                     prior=1/(1+EXP(-(prior_int(en)+prior_slope(en)*ffibs)))
                     
@@ -146,7 +147,7 @@ subroutine sav
         end if
 
 
-        write(8888,9999) ig,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior
+        write(8888,9999) ig,c,en,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior_int(en),prior_slope(en),prior
     
     end do
     
