@@ -82,13 +82,29 @@ subroutine sav
     ! start calculations of prob of each predictor with (1) and without (0) SAV    
     do ig = 1,ngrid
         ! initialize SAV variables to NoData before calculating so print outs account for NoData grid cells
+        c = -9999
+        en = -9999
+        pres = -9999
+        prob = -9999
+ 
         spsal = -9999
         sptss = -9999
         dfl = -9999
         ffibs = -9999
-        prob = -9999 
-        pres = -9999
         
+        ans1 = -9999 
+        ans0 = -9999 
+        prior = -9999 
+        pri = -9999 
+        prs = -9999 
+        
+        ans1_dfl_part = -9999 
+        ans0_dfl_part = -9999 
+        ans1_sal_part = -9999 
+        ans0_sal_part = -9999 
+        ans1_tss_part = -9999 
+        ans0_tss_part = -9999 
+           
         c = grid_comp(ig)
         if (c > 0) then
             en = comp_eco(c)
@@ -141,13 +157,13 @@ subroutine sav
                         else
                             pres = 0
                         end if
-                        write(8888,9999) ig,c,en,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
                     end if
                 end if
             end if
         end if
-        def_val = -9999
-        write(8888,9990) ig,c,en,pres,prob,spsal,sptss,dfl,ffibs,def_val,def_val,def_val,def_val,def_val,def_val,def_val,def_val,def_val,def_val,def_val  
+        
+        write(8888,9999) ig,c,en,pres,prob,spsal,sptss,dfl,ffibs,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
+    
     end do
     
     close(8888)
