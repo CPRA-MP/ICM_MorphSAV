@@ -84,6 +84,7 @@ subroutine sav
         prob = -9999 
          
         c = grid_comp(ig)
+        write(*,*) ig,c
         if (c > 0) then
             en = comp_eco(c)
             if (en > 0) then
