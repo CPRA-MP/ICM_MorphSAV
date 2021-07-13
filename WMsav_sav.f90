@@ -168,7 +168,6 @@ subroutine sav
     
     close(8888)
     
-9999 format( 5(I0,','), F0.4, 14(',',F0.4) )
-9990 format( 19(I0,','), I0 )  
+9999 format( 4(I0,','), F0.4, 15(',',F0.4) )
     return
 end
