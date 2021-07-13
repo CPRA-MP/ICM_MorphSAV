@@ -84,9 +84,9 @@ subroutine sav
         prob = -9999 
          
         c = grid_comp(ig)
-        write(*,*) ig,c,sal_av_mons(c,3),sal_av_mons(c,4),sal_av_mons(c,5),tss_av_mons(c,3),tss_av_mons(c,4),tss_av_mons(c,5)
         if (c > 0) then
             en = comp_eco(c)
+            write(*,*) ig,c,en
             if (en > 0) then
                 dfl = grid_dtl(ig)
                 ffibs = grid_FIBS_score(ig)
