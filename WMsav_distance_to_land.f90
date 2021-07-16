@@ -83,10 +83,10 @@ subroutine distance_to_land
                             do rr = -ring,ring                                  ! local counter for rows in current concentric ring
                                 dxx = dem_index_mapped(ic+rc, ir+rr)            ! pixel in current concentric ring with grid coordinates of (ic+rc,ir+rr)
                                 if (dem_lndtyp(dxx) /= 2) then                  ! LAND HO !!!
-                                    write(*,*) rc,rr,dxx,dem_lndtyp(dxx)
                                     land_ho = 1
-                                    local_dtl = sqrt( float((rc*dem_res)**2) + float((rr*dem_res)**2) ) ! calculated distance to land for current pixel where land was found (this is only first land pixel found in current ring - there may be a closer one later in the same ring, so keep looping over current ring)
+                                    local_dtl = sqrt( float((abs(rc)*dem_res)**2) + float((abs(rr)*dem_res)**2) ) ! calculated distance to land for current pixel where land was found (this is only first land pixel found in current ring - there may be a closer one later in the same ring, so keep looping over current ring)
                                     ring_dtl_mn = min(ring_dtl_mn, local_dtl)                           ! update minimum distance to land for current ring
+                                    write(*,*) rc,rr,local_dtl,ring_dtl_mn
                                     dem_dtl(ic) = ring_dtl_mn                                           ! update the distance to land value for the current DEM pixel to the current minimum
                                 end if
                             end do
