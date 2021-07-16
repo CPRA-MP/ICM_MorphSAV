@@ -38,6 +38,7 @@ subroutine distance_to_land
     integer :: ws                                                               ! size of moving window (number of pixels to look in each direction around central pixel)
     integer :: ic                                                               ! iterator over DEM columns
     integer :: ir                                                               ! iterator over DEM columns
+    integer :: g                                                                ! local copy of LAVegMod grid cell mapped to current DEM pixel
     integer :: d00                                                              ! DEM pixel index of current pixel being examined
     integer :: dxx                                                              ! DEM pixel in current concentric ring being examined, relative to d00
     integer :: rc                                                               ! local counter for columns in current concentric ring
