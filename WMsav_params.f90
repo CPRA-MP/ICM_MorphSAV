@@ -224,6 +224,7 @@ module params
     
     ! define global variables calculated in subroutine: DISTANCE_TO_LAND
     real(sp),dimension(:),allocatable :: dem_dtl                    ! distance to land (m) for each DEM pixel - initialized to be maximum search window size plus 1 meter
+    real(sp),dimension(:),allocatable :: dem_dtl_ffibs              ! FFIBS score for nearest land pixel - initialized to be NoData
     
     ! define global variables calculated in subroutine: SAV
     
