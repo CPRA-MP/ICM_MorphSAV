@@ -118,6 +118,7 @@ subroutine params_alloc
     
     ! allocate memory for variables calculated in subroutine: DISTANCE_TO_LAND
     allocate(dem_dtl(ndem))
+    allocate(dem_dtl_ffibs(ndem))
     
     ! allocate memory for variables calculated in subroutine: SAV
     
