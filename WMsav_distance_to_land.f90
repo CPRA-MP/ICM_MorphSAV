@@ -50,7 +50,7 @@ subroutine distance_to_land
     integer ::  pn                                                              ! iterator
     integer :: nprogress                                                        ! progress of looping in pixel count
 
-    ws = 5 !67                                                                     ! maximum distance (in DEM pixels) to search for land
+    ws = 67                                                                     ! maximum distance (in DEM pixels) to search for land
     
     write(  *,'(A,I6,A)') ' - determining distance to land for each DEM pixel (search limited to ',ws*dem_res,' m)'
     write(000,'(A,I6,A)') ' - determining distance to land for each DEM pixel (search limited to ',ws*dem_res,' m)'
@@ -67,8 +67,8 @@ subroutine distance_to_land
         do ir = ws+1,n_dem_row-ws-1                                             ! this will not allow any pixel on the outside border of the raster be included in search
             
             nprogress = nprogress + 1
-            if (nprogress == 1000000) then
-                write(*,*) 'finished checking 1e6 pixels'
+            if (nprogress == 100000000) then
+                write(*,*) 'finished checking 100e6 pixels'
                 nprogress=0
             end if
            
