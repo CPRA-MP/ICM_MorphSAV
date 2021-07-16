@@ -53,10 +53,13 @@ subroutine sav
     real(sp) :: prior, pri, prs                                         ! prior probability, intercept, and slope for SAV based on location and marsh vegetation of nearest land
     real(sp) :: prob, prob_pres, prob_abs                               ! probability of SAV in grid cell, probability of presence, probability of absence
     real(sp),dimension(:),allocatable :: grid_dtl                       ! local array to store minimum distance to land for each LAVegMod grid cell
+    real(sp),dimension(:),allocatable :: grid_dtl_ffibs                 ! local array to store FFIBS score for pixel that has minimum distance to land in each LAVegMod grid cell
     integer :: def_val
     
     allocate(grid_dtl(ngrid))
-    grid_dtl = maxval(dem_dtl)                                          ! initialize the whole grid_dtl array to the maximum distance-to-land values found in the pixel-level distance-to-land array
+    allocate(grid_dtl_ffibs(ngrid))
+    grid_dtl = maxval(dem_dtl)                ! initialize the whole grid_dtl array to the maximum distance-to-land values found in the pixel-level distance-to-land array
+    grid_dtl_ffibs = -9999                    ! initialize the whole grid_dtl_ffibs to NoData
     
     write(  *,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     write(000,*) ' - calculating probability for SAV in each LAVegMod grid cell'
@@ -64,12 +67,13 @@ subroutine sav
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
     write(8888,'(A)') 'GridID,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
     
-    ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell
+    ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell as well as the FFIBS score for the corresponding nearest land pixel
     do i=1,ndem
         g = dem_grid(i)
         if (g > 0) then
             if ( dem_dtl(i) < grid_dtl(g) ) then
                 grid_dtl(g) = dem_dtl(i)
+                grid_dtl_ffibs(g) = dem_dtl_ffibs(i)
             end if
         end if
     end do       
@@ -106,7 +110,7 @@ subroutine sav
             en = comp_eco(c)
             if (en > 0) then
                 dfl = grid_dtl(ig)
-                ffibs = grid_FIBS_score(ig)
+                ffibs = grid_dtl_ffibs(ig)
                 if (ffibs > -9999) then
                     if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
                         prob = 0.0
