@@ -65,8 +65,8 @@ subroutine distance_to_land
         do ir = ws+1,n_dem_row-ws-1                                             ! this will not allow any pixel on the outside border of the raster be included in search
             
             nprogress = nprogress + 1
-            if (nprogress == 100000) then
-                write(*,*) 'finished checking 100k pixels'
+            if (nprogress == 1000000) then
+                write(*,*) 'finished checking 1e6 pixels'
                 nprogress=0
             end if
            
@@ -75,19 +75,28 @@ subroutine distance_to_land
             if (dem_lndtyp(d00) /= dem_NoDataVal) then                          ! check if dem_lndtyp is assigned - if not, pixel is skipped
                 if (dem_lndtyp(d00) /= 2) then                                  ! check if dem_lndtyp is water, if not water, set distance to land to zero - and move on to next pixel
                     dem_dtl(d00) = 0
+                    g = dem_grid(d00)                                           ! lookup LAVegMod grid ID for current DEM pixel
+                    if (g > 0) then
+                        dem_dtl_ffibs(d00) = grid_FIBS_score(g)                 ! lookup FFIBS score for grid and map to DEM pixelthat has nearest land
+                    end if
                 else                                                            ! pixel d00 is water, so start looking for land
                     do ring = 1,ws                                              ! start search concentrically moving outward from d00 one ring at a time until max windowsize is reached
                         ring_dtl_mn = ws*dem_res+1                              ! initialize the minimum distance to land for the current search ring to maximum search distance+1 meter
                         land_ho = 0                                             ! set flag to 0 for start of ring
                         do rc = -ring,ring                                      ! local counter for columns in current concentric ring
                             do rr = -ring,ring                                  ! local counter for rows in current concentric ring
-                                dxx = dem_index_mapped(ic+rc, ir+rr)            ! pixel in current concentric ring with grid coordinates of (ic+rc,ir+rr)
+                                dxx = dem_index_mapped(ic+rc, ir+rr)            ! 30-m pixel ID in current concentric ring with grid coordinates of (ic+rc,ir+rr)
                                 if (dem_lndtyp(dxx) /= 2) then                  ! LAND HO !!!
                                     land_ho = 1
-                                    local_dtl = sqrt( float((abs(rc)*dem_res)**2) + float((abs(rr)*dem_res)**2) ) ! calculated distance to land for current pixel where land was found (this is only first land pixel found in current ring - there may be a closer one later in the same ring, so keep looping over current ring)
-                                    ring_dtl_mn = min(ring_dtl_mn, local_dtl)                           ! update minimum distance to land for current ring
-                                    write(*,*) rc,rr,local_dtl,ring_dtl_mn
-                                    dem_dtl(ic) = ring_dtl_mn                                           ! update the distance to land value for the current DEM pixel to the current minimum
+                                    local_dtl = sqrt( float((rc*dem_res)**2) + float((rr*dem_res)**2) ) ! calculated distance to land for current pixel where land was found (this is only first land pixel found in current ring - there may be a closer one later in the same ring, so keep looping over current ring)
+                                    if (local_dtl < ring_dtl_mn) then                                   ! current pixel with land found is closer than previous pixel in ring that had land
+                                        ring_dtl_mn = local_dtl                                         ! update minimum distance to land for current ring
+                                        dem_dtl(d00) = ring_dtl_mn                                      ! update the distance to land value for the current DEM pixel to the current minimum
+                                        g = dem_grid(dxx)                                               ! lookup LAVegMod grid ID for current DEM pixel
+                                        if (g > 0) then
+                                            dem_dtl_ffibs(d00) = grid_FIBS_score(g)                     ! lookup FFIBS score for has nearest land pixel
+                                        end if
+                                    end if
                                 end if
                             end do
                         end do
