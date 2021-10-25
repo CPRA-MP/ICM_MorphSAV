@@ -8,7 +8,7 @@ subroutine set_io
     
     call params_alloc_io
     
-    open(unit=001, file=trim(adjustL('geomorph/input_params.csv')))
+    open(unit=001, file=trim(adjustL('geomorph/SAV_input_params.csv')))
  
     ! settings
     read(001,*) start_year,dump_txt
