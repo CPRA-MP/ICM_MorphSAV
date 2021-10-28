@@ -65,8 +65,14 @@ subroutine sav
     write(000,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
-    open(unit=8889, file = trim(adjustL(grid_sav_file))//'.xyz')
-
+    
+    open(unit=8889, file = trim(adjustL(grid_sav_file))//'prob.xyz')
+    open(unit=8887, file = trim(adjustL(grid_sav_file))//'prob_pres.xyz')
+    open(unit=8886, file = trim(adjustL(grid_sav_file))//'prob_abs.xyz')
+    open(unit=8885, file = trim(adjustL(grid_sav_file))//'spsal.xyz')
+    open(unit=8884, file = trim(adjustL(grid_sav_file))//'sptss.xyz')
+    open(unit=8883, file = trim(adjustL(grid_sav_file))//'dfl.xyz')
+    
     write(8888,'(A)') 'x,y,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell as well as the FFIBS score for the corresponding nearest land pixel
@@ -96,8 +102,9 @@ subroutine sav
         ans0_sal_part = -9999 
         ans1_tss_part = -9999 
         ans0_tss_part = -9999 
-           
-        c = grid_comp(ig)
+        if (ig > 0) then   
+            c = grid_comp(ig)
+        end if
         if (c > 0) then
             en = comp_eco(c)
             if (en > 0) then
@@ -157,13 +164,27 @@ subroutine sav
         end if
 
         write(8888,9998) dem_x(i),dem_y(i),pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
-        write(8889,'(I,I,I)') dem_x(i),dem_y(i),prob
+
+        write(8889,'(I,I,F0.4)') dem_x(i),dem_y(i),prob
+        write(8887,'(I,I,F0.4)') dem_x(i),dem_y(i),prob_pres
+        write(8886,'(I,I,F0.4)') dem_x(i),dem_y(i),prob_abs
+        write(8885,'(I,I,F0.4)') dem_x(i),dem_y(i),spsal
+        write(8884,'(I,I,F0.4)') dem_x(i),dem_y(i),sptss
+        write(8883,'(I,I,F0.4)') dem_x(i),dem_y(i),dfl
+        
 !        write(8888,9999) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,c,en,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
 
     end do
     
     close(8888)
+    
     close(8889)
+    close(8887)
+    close(8886)
+    close(8885)
+    close(8884)
+    close(8883)
+    
 9998 format( 3(I0,','), F0.4, 15(',',F0.4) )    
 9999 format( 2(I0,','), F0.4, 6(',',F0.4), 2(',',I0), 11(',',F0.4) )
     return
