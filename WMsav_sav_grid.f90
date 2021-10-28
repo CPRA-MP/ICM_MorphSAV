@@ -56,23 +56,31 @@ subroutine sav
     real(sp),dimension(:),allocatable :: grid_dtl_ffibs                 ! local array to store FFIBS score for pixel that has minimum distance to land in each LAVegMod grid cell
     integer :: def_val
     
-    !allocate(grid_dtl(ngrid))
-    !allocate(grid_dtl_ffibs(ngrid))
-    !grid_dtl = maxval(dem_dtl)                ! initialize the whole grid_dtl array to the maximum distance-to-land values found in the pixel-level distance-to-land array
-    !grid_dtl_ffibs = -9999                    ! initialize the whole grid_dtl_ffibs to NoData
+    allocate(grid_dtl(ngrid))
+    allocate(grid_dtl_ffibs(ngrid))
+    grid_dtl = maxval(dem_dtl)                ! initialize the whole grid_dtl array to the maximum distance-to-land values found in the pixel-level distance-to-land array
+    grid_dtl_ffibs = -9999                    ! initialize the whole grid_dtl_ffibs to NoData
     
     write(  *,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     write(000,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     
     open(unit=8888, file = trim(adjustL(grid_sav_file) ))
-    open(unit=8889, file = trim(adjustL(grid_sav_file))//'.xyz')
-
-    write(8888,'(A)') 'x,y,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
+    write(8888,'(A)') 'GridID,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell as well as the FFIBS score for the corresponding nearest land pixel
     do i=1,ndem
-        ig = dem_grid(i)
-        ! start calculations of prob of each predictor with (1) and without (0) SAV    
+        g = dem_grid(i)
+        if (g > 0) then
+            if ( dem_dtl(i) < grid_dtl(g) ) then
+                grid_dtl(g) = dem_dtl(i)
+                grid_dtl_ffibs(g) = dem_dtl_ffibs(i)
+            end if
+        end if
+    end do       
+     
+     
+    ! start calculations of prob of each predictor with (1) and without (0) SAV    
+    do ig = 1,ngrid
         ! initialize SAV variables to NoData before calculating so print outs account for NoData grid cells
         c = -9999
         en = -9999
@@ -101,8 +109,8 @@ subroutine sav
         if (c > 0) then
             en = comp_eco(c)
             if (en > 0) then
-                dfl = dem_dtl(i)
-                ffibs = dem_dtl_ffibs(i)
+                dfl = grid_dtl(ig)
+                ffibs = grid_dtl_ffibs(ig)
                 if (ffibs > -9999) then
                     if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
                         prob = 0.0
@@ -156,15 +164,13 @@ subroutine sav
             end if
         end if
 
-        write(8888,9998) dem_x(i),dem_y(i),pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
-        write(8889,'(I,I,I)') dem_x(i),dem_y(i),prob
+        write(8888,9998) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
 !        write(8888,9999) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,c,en,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
-
+    
     end do
     
     close(8888)
-    close(8889)
-9998 format( 3(I0,','), F0.4, 15(',',F0.4) )    
+9998 format( 2(I0,','), F0.4, 15(',',F0.4) )    
 9999 format( 2(I0,','), F0.4, 6(',',F0.4), 2(',',I0), 11(',',F0.4) )
     return
 end
