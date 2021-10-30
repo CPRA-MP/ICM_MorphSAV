@@ -165,12 +165,12 @@ subroutine sav
 
         write(8888,9998) dem_x(i),dem_y(i),pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
 
-        write(8889,'(I,I,F0.4)') dem_x(i),dem_y(i),prob
-        write(8887,'(I,I,F0.4)') dem_x(i),dem_y(i),prob_pres
-        write(8886,'(I,I,F0.4)') dem_x(i),dem_y(i),prob_abs
-        write(8885,'(I,I,F0.4)') dem_x(i),dem_y(i),spsal
-        write(8884,'(I,I,F0.4)') dem_x(i),dem_y(i),sptss
-        write(8883,'(I,I,F0.4)') dem_x(i),dem_y(i),dfl
+        write(8889,1801) dem_x(i),dem_y(i),prob
+        write(8887,1801) dem_x(i),dem_y(i),prob_pres
+        write(8886,1801) dem_x(i),dem_y(i),prob_abs
+        write(8885,1801) dem_x(i),dem_y(i),spsal
+        write(8884,1801) dem_x(i),dem_y(i),sptss
+        write(8883,1801) dem_x(i),dem_y(i),dfl
         
 !        write(8888,9999) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,c,en,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
 
@@ -187,5 +187,7 @@ subroutine sav
     
 9998 format( 3(I0,','), F0.4, 15(',',F0.4) )    
 9999 format( 2(I0,','), F0.4, 6(',',F0.4), 2(',',I0), 11(',',F0.4) )
+1800 format(I0,2(4x,I0))
+1801 format(2(I0,4x),F0.4)   
     return
 end
