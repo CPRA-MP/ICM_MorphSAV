@@ -73,7 +73,8 @@ subroutine sav
     open(unit=8884, file = trim(adjustL(grid_sav_file))//'sptss.xyz')
     open(unit=8883, file = trim(adjustL(grid_sav_file))//'dfl.xyz')
     
-    write(8888,'(A)') 'x,y,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs'!,CompID,EcoregionN,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part'
+    write(8888,'(A)') 'dem_x,dem_y,gridID,compID,spsal,ans1_sal_part,ans0_sal_part,sptss,ans1_tss_part,ans0_tss_part,dfl,ans1_dfl_part,ans0_dfl_part,ffibs,pri,prs,prior,ans1,ans0,pres,prob,prob_pres,prob_abs'
+
     
     ! assign minimum distance-to-land found in each ICM-LAVegMod grid cell as well as the FFIBS score for the corresponding nearest land pixel
     do i=1,ndem
@@ -110,7 +111,7 @@ subroutine sav
             if (en > 0) then
                 dfl = dem_dtl(i)
                 ffibs = dem_dtl_ffibs(i)
-                if (ffibs > -9999) then
+                if (ffibs >= 0) then
                     if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
                         prob = 0.0
                         pres = 0
@@ -158,12 +159,12 @@ subroutine sav
                         else
                             pres = 0
                         end if
+                        write(8888,9998) dem_x(i),dem_y(i),ig,c,spsal,ans1_sal_part,ans0_sal_part,sptss,ans1_tss_part,ans0_tss_part,dfl,ans1_dfl_part,ans0_dfl_part,ffibs,pri,prs,prior,ans1,ans0,pres,prob,prob_pres,prob_abs
                     end if
                 end if
             end if
         end if
 
-        write(8888,9998) dem_x(i),dem_y(i),pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs
 
         write(8889,1801) dem_x(i),dem_y(i),prob
         write(8887,1801) dem_x(i),dem_y(i),prob_pres
@@ -185,7 +186,7 @@ subroutine sav
     close(8884)
     close(8883)
     
-9998 format( 3(I0,','), F0.4, 15(',',F0.4) )    
+9998 format( 4(I0,','), F0.4, 18(',',F0.4) )    
 9999 format( 2(I0,','), F0.4, 6(',',F0.4), 2(',',I0), 11(',',F0.4) )
 1800 format(I0,2(4x,I0))
 1801 format(2(I0,4x),F0.4)   
