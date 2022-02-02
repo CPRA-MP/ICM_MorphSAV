@@ -152,8 +152,8 @@ subroutine sav
                         prob = prior*ans1/(prior*ans1+(1-prior)*ans0)
                         
                         ! convert probability of SAV to presence/absence
-                        prob_pres = LOG(prior*ans1)
-                        prob_abs = LOG(1-prior)*ans0
+                        prob_pres = LOG( prior*ans1 )
+                        prob_abs  = LOG( (1-prior)*ans0 )
                         if ( prob_pres > prob_abs ) then
                             pres = 1
                         else
