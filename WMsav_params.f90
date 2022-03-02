@@ -12,6 +12,7 @@ module params
     integer :: dump_int                                             ! dummy variable to use for data in input files
     real(sp) :: dump_flt                                            ! dummy variable to use for data in input files
     integer :: tp                                                   ! flag to indicate which timeperiod to use for inundation calculations (1-12=month; 13 = annual)
+    character*300 :: input_path                                     ! string to hold file path to SAV_input_params_YYYY.csv input text file
     
     ! I/O settings in subroutine: SET_IO
     integer :: start_year                                           ! first year of model run

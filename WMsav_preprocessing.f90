@@ -136,7 +136,7 @@ subroutine preprocessing
     n_dem_row = 1+(dem_URy - dem_LLy)/dem_res
 
     ! allocate array for DEM map    
-    call dem_params_alloc(n_dem_col,n_dem_row)
+    call dem_params_alloc!(n_dem_col,n_dem_row)
     
     ! initialize arrays to 0
     !dem_index_mapped = 0
