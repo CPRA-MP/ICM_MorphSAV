@@ -27,7 +27,7 @@ program main
     character*17 :: dtstrf                          ! string to hold formatted datetime
     character*19 :: dtstr                           ! string to hold formatted datetime
     
-    !call get_command_argument(1, input_path)            ! input_path = 'geomorph/SAV_input_params_YYYY.csv'
+    call get_command_argument(1, input_path)            ! input_path = 'geomorph/SAV_input_params_YYYY.csv'
     input_path = trim(input_path)
     
     write(*,*) input_path
