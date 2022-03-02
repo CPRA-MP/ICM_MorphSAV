@@ -30,6 +30,8 @@ program main
     !call get_command_argument(1, input_path)            ! input_path = 'geomorph/SAV_input_params_YYYY.csv'
     input_path = trim(input_path)
     
+    write(*,*) input_path
+    
     call date_and_time(VALUES=dtvalues)             ! grab simulation start time
     write(dtstrf,8888) dtvalues(1),dtvalues(2),dtvalues(3),'_',dtvalues(5),'.',dtvalues(6),'.',dtvalues(7)
     write(dtstr,8889) dtvalues(1),'-',dtvalues(2),'-',dtvalues(3),' ',dtvalues(5),':',dtvalues(6),':',dtvalues(7)
