@@ -64,14 +64,14 @@ subroutine sav
     write(  *,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     write(000,*) ' - calculating probability for SAV in each LAVegMod grid cell'
     
-    open(unit=8888, file = trim(adjustL(grid_sav_file) ))
+    open(unit=8888, file = trim(adjustL(grid_sav_file))//'.csv')
     
-    open(unit=8889, file = trim(adjustL(grid_sav_file))//'prob.xyz')
-    open(unit=8887, file = trim(adjustL(grid_sav_file))//'prob_pres.xyz')
-    open(unit=8886, file = trim(adjustL(grid_sav_file))//'prob_abs.xyz')
-    open(unit=8885, file = trim(adjustL(grid_sav_file))//'spsal.xyz')
-    open(unit=8884, file = trim(adjustL(grid_sav_file))//'sptss.xyz')
-    open(unit=8883, file = trim(adjustL(grid_sav_file))//'dfl.xyz')
+    open(unit=8889, file = trim(adjustL(grid_sav_file))//'_prob.xyz')
+    !open(unit=8887, file = trim(adjustL(grid_sav_file))//'prob_pres.xyz')
+    !open(unit=8886, file = trim(adjustL(grid_sav_file))//'prob_abs.xyz')
+    !open(unit=8885, file = trim(adjustL(grid_sav_file))//'spsal.xyz')
+    !open(unit=8884, file = trim(adjustL(grid_sav_file))//'sptss.xyz')
+    !open(unit=8883, file = trim(adjustL(grid_sav_file))//'dfl.xyz')
     
     !write(8888,'(A)') 'dem_x,dem_y,gridID,compID,spsal,ans1_sal_part,ans0_sal_part,sptss,ans1_tss_part,ans0_tss_part,dfl,ans1_dfl_part,ans0_dfl_part,ffibs,pri,prs,prior,ans1,ans0,pres,prob,prob_pres,prob_abs'
     write(8888,'(A)') 'dem_x,dem_y,gridID,compID,spsal,sptss,dfl,ffibs,prob'
@@ -166,26 +166,22 @@ subroutine sav
             end if
         end if
 
-
         write(8889,1801) dem_x(i),dem_y(i),prob
-        write(8887,1801) dem_x(i),dem_y(i),prob_pres
-        write(8886,1801) dem_x(i),dem_y(i),prob_abs
-        write(8885,1801) dem_x(i),dem_y(i),spsal
-        write(8884,1801) dem_x(i),dem_y(i),sptss
-        write(8883,1801) dem_x(i),dem_y(i),dfl
-        
-!        write(8888,9999) ig,pres,prob,prob_pres,prob_abs,spsal,sptss,dfl,ffibs,c,en,ans1,ans0,prior,pri,prs,ans1_dfl_part,ans0_dfl_part,ans1_sal_part,ans0_sal_part,ans1_tss_part,ans0_tss_part
-
+        !write(8887,1801) dem_x(i),dem_y(i),prob_pres
+        !write(8886,1801) dem_x(i),dem_y(i),prob_abs
+        !write(8885,1801) dem_x(i),dem_y(i),spsal
+        !write(8884,1801) dem_x(i),dem_y(i),sptss
+        !write(8883,1801) dem_x(i),dem_y(i),dfl
+   
     end do
     
     close(8888)
-    
     close(8889)
-    close(8887)
-    close(8886)
-    close(8885)
-    close(8884)
-    close(8883)
+    !close(8887)
+    !close(8886)
+    !close(8885)
+    !close(8884)
+    !close(8883)
     
 9998 format( 4(I0,','), F0.4, 4(',',F0.4) )    
 9990 format( 4(I0,','), F0.4, 18(',',F0.4) )    
