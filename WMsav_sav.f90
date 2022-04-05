@@ -160,7 +160,7 @@ subroutine sav
                             pres = 0
                         end if
                         !write(8888,9990) dem_x(i),dem_y(i),ig,c,spsal,ans1_sal_part,ans0_sal_part,sptss,ans1_tss_part,ans0_tss_part,dfl,ans1_dfl_part,ans0_dfl_part,ffibs,pri,prs,prior,ans1,ans0,pres,prob,prob_pres,prob_abs
-                        write(8888,9998) dem_x,dem_y,gridID,compID,spsal,sptss,dfl,ffibs,prob
+                        write(8888,9998) dem_x(i),dem_y(i),ig,c,spsal,sptss,dfl,ffibs,prob
                     end if
                 end if
             end if
