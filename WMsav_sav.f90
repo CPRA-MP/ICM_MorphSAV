@@ -111,19 +111,19 @@ subroutine sav
             if (en > 0) then
                 dfl = dem_dtl(i)
                 ffibs = dem_dtl_ffibs(i)
-                if (ffibs >= 0) then
-                    if (dfl > 2010) then            ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
+                if (ffibs >= 0) then                ! some pixels that are the closest land may be located in a grid cell that has no FFIBS score (either due to flotant or developed land being present) - these areas will report out a SAV prob of -9999
+                    if (dfl <= 0) then              ! grid cell is 100% land/marsh so SAV cannot occur
                         prob = 0.0
                         pres = 0
                         ans1 = 0.0
                         ans0 = 0.0
                         prior = 0.0
-                    else if (dfl <= 0) then         ! grid cell is 100% land/marsh so SAV cannot occur
+                    else if (dfl > 2010) then       ! grid cell is further than 2 km from land - too much exposure for SAV cannot occur
                         prob = 0.0
                         pres = 0
                         ans1 = 0.0
                         ans0 = 0.0
-                        prior = 0.0
+                        prior = 0.0 
                     else if (dfl <= 2010) then      ! grid cell has some water that is less than 2 km from nearest land - calculate SAV probability
                         spsal = max(0.1, ( sal_av_mons(c,3)+sal_av_mons(c,4)+sal_av_mons(c,5) ) / 3.0 )
                         sptss = max(1.0, ( tss_av_mons(c,3)+tss_av_mons(c,4)+tss_av_mons(c,5) ) / 3.0 )
@@ -159,13 +159,21 @@ subroutine sav
                         else
                             pres = 0
                         end if
-                        !write(8888,9990) dem_x(i),dem_y(i),ig,c,spsal,ans1_sal_part,ans0_sal_part,sptss,ans1_tss_part,ans0_tss_part,dfl,ans1_dfl_part,ans0_dfl_part,ffibs,pri,prs,prior,ans1,ans0,pres,prob,prob_pres,prob_abs
-                        write(8888,9998) dem_x(i),dem_y(i),ig,c,spsal,sptss,dfl,ffibs,prob
                     end if
                 end if
+
+                ! write CSV output for all pixels that are water and within the ecoregion/compartment/grid domain                    
+                if ( dfl > 0) 
+                    write(8888,9998) dem_x(i),dem_y(i),ig,c,spsal,sptss,dfl,ffibs,prob
+                end if
+                
+                ! write full CSV file for de-bugging. This will save values for all pixels that are within an ecoregion/compartment/grid - will skip all pixels outside of those domains
+                !write(8888,9990) dem_x(i),dem_y(i),ig,c,spsal,ans1_sal_part,ans0_sal_part,sptss,ans1_tss_part,ans0_tss_part,dfl,ans1_dfl_part,ans0_dfl_part,ffibs,pri,prs,prior,ans1,ans0,pres,prob,prob_pres,prob_abs
+                
             end if
         end if
-
+        
+        ! write XYZ file for all pixels
         write(8889,1801) dem_x(i),dem_y(i),prob
         !write(8887,1801) dem_x(i),dem_y(i),prob_pres
         !write(8886,1801) dem_x(i),dem_y(i),prob_abs
