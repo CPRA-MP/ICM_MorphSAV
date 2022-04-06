@@ -163,7 +163,7 @@ subroutine sav
                 end if
 
                 ! write CSV output for all pixels that are water and within the ecoregion/compartment/grid domain                    
-                if ( dfl > 0) 
+                if ( dfl > 0) then
                     write(8888,9998) dem_x(i),dem_y(i),ig,c,spsal,sptss,dfl,ffibs,prob
                 end if
                 
